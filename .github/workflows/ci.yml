@@ -3,6 +3,7 @@ on:
     branches:
     - main
 
+
 jobs:
   test:
     name: Test on node ${{ matrix.node_version }} and ${{ matrix.os }}
@@ -13,12 +14,7 @@ jobs:
         os: [ubuntu-latest, windows-latest, macOS-latest]
 
     steps:
-       - name: "check permission to repo"
-         uses: "sixleaveakkm/check-permission@0.5"
-         with:
-          permission: "write"
-          token: ${{ secrets.CI_TOKEN }}
-          repos: "repo_org/repo_name,repo_org/another_name"
+
        - name: Checkout code
          uses: actions/checkout@master
        - name: Update diagram
