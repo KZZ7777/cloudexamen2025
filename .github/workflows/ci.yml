@@ -13,23 +13,29 @@ jobs:
         os: [ubuntu-latest, windows-latest, macOS-latest]
 
     steps:
-     - name: Checkout code
-       uses: actions/checkout@master
-     - name: Update diagram
-       uses: githubocto/repo-visualizer@0.7.1
-       with:
-          output_file: "images/diagram.svg"
-          excluded_paths: "dist,node_modules"
+       - name: "check permission to repo"
+         uses: "sixleaveakkm/check-permission@0.5"
+         with:
+          permission: "write"
+          token: ${{ secrets.CI_TOKEN }}
+          repos: "repo_org/repo_name,repo_org/another_name"
+       - name: Checkout code
+         uses: actions/checkout@master
+       - name: Update diagram
+         uses: githubocto/repo-visualizer@0.7.1
+         with:
+            output_file: "images/diagram.svg"
+            excluded_paths: "dist,node_modules"
 
-     - name: Update diagram
-       id: make_diagram
-       uses: githubocto/repo-visualizer@0.7.1
-       with:
-        output_file: "output-diagram.svg"
-        artifact_name: "my-diagram"
+       - name: Update diagram
+         id: make_diagram
+         uses: githubocto/repo-visualizer@0.7.1
+         with:
+          output_file: "output-diagram.svg"
+          artifact_name: "my-diagram"
         
-     - name: Get artifact
-       uses: actions/download-artifact@v4
-       with:
-          name: "my-diagram"
-          path: "downloads"
+       - name: Get artifact
+         uses: actions/download-artifact@v4
+         with:
+            name: "my-diagram"
+            path: "downloads"
